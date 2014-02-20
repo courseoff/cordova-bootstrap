@@ -42,7 +42,7 @@ assets: www/index.css www/index.js
 www/index.js: $(shell find js -type f)
 	# $@ is an alias for the `target` or www/index.js in this case
 	# this will build output file to www/index.js
-	$(nodebin)/browserify --debug js/index.js -o $@
+	$(nodebin)/browserify -t browserify-file --debug js/index.js -o $@
 
 # build css resource from stylus assets
 www/index.css: $(shell find css -type f)
