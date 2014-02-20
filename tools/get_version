@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+// read config.xml and get project version
+
+var fs = require('fs');
+var xml2json = require('xml2json');
+
+var config = fs.readFileSync(__dirname + '/../config.xml', 'utf8');
+var root = xml2json.toJson(config, { object: true });
+console.log(root.widget.version);

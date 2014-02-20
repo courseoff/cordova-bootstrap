@@ -1,0 +1,86 @@
+#!/bin/bash
+
+set -e
+
+# basepath for this script
+__dirname="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# TODO maybe turn these into project settings and make cordova utilities for them
+# your project name, should match name in config.xml
+prj_name=Bootstrap
+
+# change this to your keystore path and alias for android builds
+keystore=$HOME/release.keystore
+key_alias=bootstrap
+
+# change this to point to where your provisioning profiles live for ios builds
+profile_dir=$HOME
+
+### Nothing to change below this line ###
+
+prj_dir="$__dirname/.."
+
+npm install # need this for version stuff
+
+# all operations are now from project root
+cd $prj_dir
+
+version=$($__dirname/get_version)
+echo "release version $version"
+
+# some directory roots
+dist_dir="$__dirname/../dist"
+out_dir="$dist_dir/$version"
+
+# get environment settings for release builds
+# this configures api endpoints, etc
+source env/release.env
+
+# build file root for android
+android_dir="$prj_dir/platforms/android/"
+ios_dir="$prj_dir/platforms/ios/build/device"
+
+make clean
+make init
+
+# debuggable needs to be false for release builds
+# seems like a cordova bug
+# we work around for now
+sed -i ".bak" -e s/debuggable=\"true\"/debuggable=\"false\"/g $android_dir/AndroidManifest.xml
+
+make build-prod-ios
+make build-prod-android
+
+echo "creating directory $out_dir"
+mkdir $out_dir
+
+## Android packaging
+android_apk=$proj_name-release
+
+# copy the original build apk for reference
+cp $android_dir/bin/$android_apk-unsigned.apk $out_dir/
+
+# sign the unsigned package into an unaligned apk
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $keystore -signedjar $out_dir/$android_apk-unaligned.apk $out_dir/$android_apk-unsigned.apk $key_alias
+
+# verify the signature
+jarsigner -verify -verbose $out_dir/$android_apk-unaligned.apk
+
+# align and make final apk
+zipalign -v 4 $out_dir/$android_apk-unaligned.apk $out_dir/$proj_name.apk
+
+
+## IOS build
+app_bundle=$out_dir/$proj_name.app
+developer_name="iPhone Distribution"
+
+# backup the app bundle
+cp -r $ios_dir/$proj_name.app $app_bundle
+
+# we sign with both profiles
+app_store_profile=$profile_dir/App_Store.mobileprovision
+testflight_profile=$profile_dir/testflight.mobileprovision
+
+xcrun -sdk iphoneos PackageApplication -v $app_bundle -o "$out_dir/$proj_name.appstore.ipa" --sign "$developer_name" --embed "$app_store_profile"
+
+xcrun -sdk iphoneos PackageApplication -v $app_bundle -o "$out_dir/$proj_name.testflight.ipa" --sign "$developer_name" --embed "$testflight_profile"
