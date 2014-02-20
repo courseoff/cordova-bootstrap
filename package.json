@@ -2,6 +2,7 @@
     "name": "Bootstrap",
     "private": true,
     "dependencies": {
+        "fastclick": "0.6.11"
     },
     "devDependencies": {
         "browserify": "3.30.1",

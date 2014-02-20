@@ -1,3 +1,5 @@
+require('fastclick');
+
 // Bind any events that are required on startup. Common events are:
 // 'load', 'deviceready', 'offline', and 'online'.
 document.addEventListener('deviceready', device_ready, false);
