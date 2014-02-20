@@ -1,5 +1,7 @@
 require('fastclick');
 
+var debug = require('debug')('app');
+
 // require the loading view so we can instantiate it
 var LoadingView = require('./loading-view');
 
@@ -15,6 +17,6 @@ container.appendChild(view.el);
 document.addEventListener('deviceready', device_ready, false);
 
 function device_ready(ev) {
-    console.log('device ready');
+    debug('device ready');
     view.ready();
 }

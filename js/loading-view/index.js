@@ -1,3 +1,5 @@
+var debug = require('debug')('app:loading-view');
+
 var Contact = require('../lib/contact');
 
 var tmpl = require('./index.html');
@@ -31,7 +33,9 @@ LoadingView.prototype.ready = function() {
             // do something
         }
 
-        console.log(contacts);
+        contacts.forEach(function(contact) {
+            debug(contact.displayName);
+        });
     });
 };
 
