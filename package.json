@@ -12,6 +12,6 @@
         "nodemon": "1.0.15",
         "cordova": "3.3.1-0.4.2",
         "xml2json": "0.4.0",
-        "ripple-emulator": "courseoff/ripple-emulator"
+        "ripple-emulator": "^0.9.24"
     }
 }
