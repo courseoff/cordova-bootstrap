@@ -45,9 +45,9 @@ www/index.js: $(shell find js -type f)
 	# this will build output file to www/index.js
 	$(nodebin)/browserify -t browserify-file --debug js/index.js | $(uglify) > $@
 
-# build css resource from stylus assets
+# build css resource from less assets
 www/index.css: $(shell find css -type f)
-	$(nodebin)/stylus --include-css -c css/index.styl -o www/
+	$(nodebin)/lessc -x css/index.less > $@
 
 # clean assets
 clean-assets:
