@@ -1,17 +1,18 @@
 {
-    "name": "Bootstrap",
-    "private": true,
-    "dependencies": {
-        "fastclick": "0.6.11",
-        "debug": "0.7.4"
-    },
-    "devDependencies": {
-        "browserify": "3.30.1",
-        "browserify-file": "0.0.0",
-        "stylus": "0.42.2",
-        "nodemon": "1.0.15",
-        "cordova": "3.3.1-0.4.2",
-        "xml2json": "0.4.0",
-        "ripple-emulator": "^0.9.24"
-    }
+  "name": "Bootstrap",
+  "private": true,
+  "dependencies": {
+    "debug": "0.7.4",
+    "fastclick": "0.6.11"
+  },
+  "devDependencies": {
+    "browserify": "3.30.1",
+    "browserify-file": "0.0.0",
+    "cordova": "3.3.1-0.4.2",
+    "nodemon": "1.0.15",
+    "ripple-emulator": "^0.9.24",
+    "stylus": "0.42.2",
+    "uglify-js": "^2.4.15",
+    "xml2json": "0.4.0"
+  }
 }

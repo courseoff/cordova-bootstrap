@@ -3,6 +3,7 @@ nodebin = node_modules/.bin
 ripple = $(nodebin)/ripple
 cordova = $(nodebin)/cordova
 nodemon = $(nodebin)/nodemon
+uglify = $(nodebin)/uglifyjs
 
 # default makefile action is to do nothing
 all:
@@ -42,11 +43,15 @@ assets: www/index.css www/index.js
 www/index.js: $(shell find js -type f)
 	# $@ is an alias for the `target` or www/index.js in this case
 	# this will build output file to www/index.js
-	$(nodebin)/browserify -t browserify-file --debug js/index.js -o $@
+	$(nodebin)/browserify -t browserify-file --debug js/index.js | $(uglify) > $@
 
 # build css resource from stylus assets
 www/index.css: $(shell find css -type f)
-	$(nodebin)/stylus --include-css css/index.styl -o www/
+	$(nodebin)/stylus --include-css -c css/index.styl -o www/
+
+# clean assets
+clean-assets:
+	rm -rf www/index.js www/index.css
 
 # this is a helper target during developmnt to rebuild any assets
 # nodemon just runs a command when any of the files change
