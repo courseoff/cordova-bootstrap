@@ -39,11 +39,11 @@ ripple-emulate:
 
 assets: www/index.css www/index.js
 
-# build single js file starting from index.js
+# build single js file starting from index.coffee
 www/index.js: $(shell find js -type f)
 	# $@ is an alias for the `target` or www/index.js in this case
 	# this will build output file to www/index.js
-	$(nodebin)/browserify -t browserify-file --debug js/index.js | $(uglify) > $@
+	$(nodebin)/browserify -t browserify-file -t coffeeify --debug coffee/index.coffee | $(uglify) > $@
 
 # build css resource from less assets
 www/index.css: $(shell find css -type f)

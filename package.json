@@ -8,6 +8,7 @@
   "devDependencies": {
     "browserify": "3.30.1",
     "browserify-file": "0.0.0",
+    "coffeeify": "^1.0.0",
     "cordova": "3.3.1-0.4.2",
     "less": "^2.0.0",
     "nodemon": "1.0.15",
