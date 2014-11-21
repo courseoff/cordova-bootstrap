@@ -34,8 +34,6 @@ options =
   filter: ""
   multiple: true
 
-console.log Contact
-
 Contact.find ["displayName", "name"], options, (err, contacts) ->
   contacts.forEach (contact) ->
     console.log contact.displayName

@@ -35,7 +35,7 @@ build-prod-android: assets platforms/android
 	$(cordova) build android --release
 
 ripple-emulate:
-	$(ripple) emulate --path=/www
+	$(ripple) emulate --port 1337
 
 assets: www/index.css www/index.js
 

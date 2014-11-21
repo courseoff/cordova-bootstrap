@@ -13,14 +13,6 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-exec"
 
   grunt.initConfig
-    connect:
-      options:
-        port: 1337
-        base: "."
-        livereload: 35729
-        hostname: grunt.option('hostname') || '0.0.0.0'
-        open: true
-
     clean: ['www/index.js', 'www/index.min.js', 'www/index.css']
 
     exec:
@@ -85,26 +77,26 @@ module.exports = (grunt) ->
         options:
           livereload: true
       
-  grunt.registerTask "compile", ->
+  grunt.registerTask "compile", "Compile assets", ->
     grunt.task.run [
       "browserify",
       "uglify",
       "less"
     ]
 
-  # start a server and connect it via ripple
-  # watch files and reload page if file changes
-  grunt.registerTask "serve", -> 
+  grunt.registerTask "serve", "Start ripple server", ->
     grunt.task.run [
-      "connect",
-      "clean",
-      "compile",
-      "watch",
-      #"exec:ripple"
+      "exec:ripple"
     ]
 
-  # pass
-  grunt.registerTask "build", ->
+  grunt.registerTask "devwatch", 'Recompile all assets and watch it', ->
+    grunt.task.run [
+      "clean",
+      "compile",
+      "watch"
+    ]
+
+  grunt.registerTask "build", "Build apps", ->
     grunt.task.run [
       "clean",
       "compile",

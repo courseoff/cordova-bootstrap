@@ -1,47 +1,41 @@
-# cordova bootstrap
+# Cordova Browserify Bootstrap
 
 Example cordova application showing how to work with js modules, multiple css files, and builds to create a maintainable application with html/js/css technologies.
 
-This project was first initialized with the following command and committed into this repo as the first commit.
-```
-cordova create bootstrap com.example.bootstrap Bootstrap
-```
+What's more, this example app integrates [Browserify](http://browserify.org), [Coffeescript](http://coffeescript.org), [Less](http::/lesscss.org)
 
-## project organization
+## Project organization
 
 package.json
   - dependencies and development tools
 
 Makefile
-  - `make init`
+  - use `make init` to initialize folders
   - quick commands to ease development and release
+
+/src
+  - development files, including `coffee/`, `less/`
+  - `coffee/`: Coffeescript files/modules, built into final bundle with browserify
+  - `less/`: Less files, built using less
 
 /www
   - assets seen by cordova webview
   - avoid putting *active* assets here (js, css, etc). Ok to put static assets like fonts, images, etc.
 
-/js
-  - javascript files/modules
-  - built into final bundle with browserify
-
-/css
-  - stylesheets, built using stylus
-
 /tools
   - scripts to aid in testflight and appstore release
 
-
-## development workflow
+## Development workflow
 
 For rapid testing in a local browser during development, use the following commands to streamline asset building and testing.
 
-```
-$ make ripple-emulate
-$ make devwatch
-```
-
-* `ripple-emulate` runs the `ripple` emulator
-* `devwatch` simply watches for changes to certain files and rebuilds assets
+* execute following shell commands:
+  ```
+  $ grunt devwatch # Recompile all assets and watch it
+  $ grunt serve # Start ripple. Check it on http://localhost:1337/
+  ```
+* Develop code in `src/` folder, files would be recompiled as soon as saved.
+* Refresh tab by clicking `Enter`. Do not use F5/Cmd+R!
 
 ### tips
 
@@ -64,4 +58,3 @@ These are items which cordova doesn't do by default (yet) when making a release 
 `debuggable=false` should be set in AndroidManifest.xml (done in release script)
 
 `TARGET_DEVICE_FAMILY = 1` for ios builds only for iphone (in build.xconfig ios platform dir, but not done automatically yet)
-
