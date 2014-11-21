@@ -35,19 +35,19 @@ build-prod-android: assets platforms/android
 	$(cordova) build android --release
 
 ripple-emulate:
-	$(ripple) emulate
+	$(ripple) emulate --path=/www
 
 assets: www/index.css www/index.js
 
 # build single js file starting from index.coffee
-www/index.js: $(shell find js -type f)
+www/index.js: $(shell find src/coffee -type f)
 	# $@ is an alias for the `target` or www/index.js in this case
 	# this will build output file to www/index.js
-	$(nodebin)/browserify -t browserify-file -t coffeeify --debug coffee/index.coffee | $(uglify) > $@
+	$(nodebin)/browserify -t browserify-file -t coffeeify --debug src/coffee/index.coffee | $(uglify) > $@
 
 # build css resource from less assets
-www/index.css: $(shell find css -type f)
-	$(nodebin)/lessc -x css/index.less > $@
+www/index.css: $(shell find src/less -type f)
+	$(nodebin)/lessc -x src/less/index.less > $@
 
 # clean assets
 clean-assets:
@@ -58,7 +58,7 @@ clean-assets:
 # we run `make assets` when js, styl, or html files change
 # in the js or css folders
 devwatch:
-	$(nodemon) -w js -w css -e js,css,styl,html --exec "make assets"
+	$(nodemon) -w src/coffee -w src/less -e js,coffee,css,less,html --exec "make assets"
 
 # absolute clean, basically returns repo to checkout state
 clean:

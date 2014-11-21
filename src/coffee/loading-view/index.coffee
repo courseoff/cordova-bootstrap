@@ -6,7 +6,7 @@ LoadingView = ->
   return
 
 debug = require("debug")("app:loading-view")
-Contact = require("../lib/contact")
+Contact = require("../lib/contact.coffee")
 tmpl = require("./index.html")
 
 LoadingView::ready = ->
@@ -25,9 +25,8 @@ LoadingView::ready = ->
   ]
 
   Contact.find fields, options, (err, contacts) ->
-    if (err) {
+    # if (err)
       # do something
-    }
     contacts.forEach (contact) ->
       debug contact.displayName
       return

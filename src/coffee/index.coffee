@@ -2,7 +2,7 @@ require("fastclick")
 debug = require("debug")("app")
 
 # require the loading view so we can instantiate it
-LoadingView = require "./loading-view"
+LoadingView = require("./loading-view/index.coffee")
 
 # make a view
 view = LoadingView()
