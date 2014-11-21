@@ -1,21 +1,45 @@
-require("fastclick")
-debug = require("debug")("app")
+# load css
+require './styles'
 
-# require the loading view so we can instantiate it
-LoadingView = require("./loading-view/index.coffee")
+# Load polyfills
+require 'famous-polyfills'
 
-# make a view
-view = LoadingView()
+# import dependencies
+Engine = require 'famous/core/Engine'
+Modifier = require 'famous/core/Modifier'
+Transform = require 'famous/core/Transform'
+ImageSurface = require 'famous/surfaces/ImageSurface'
 
-# add it to the page
-container = document.querySelector('.app')
-container.appendChild(view.el)
+Contact = require './lib/contact.coffee'
 
-device_ready = (ev)->
-  debug "device ready"
-  view.ready()
+# create the main context
+mainContext = Engine.createContext()
+
+# your app here
+logo = new ImageSurface(
+  size: [200, 200]
+  content: 'img/famous_logo.png'
+  classes: ['backfaceVisibility']
+)
+
+initialTime = Date.now()
+centerSpinModifier = new Modifier(
+  align: [.5, .5]
+  origin: [.5, .5]
+  transform: ->
+    return Transform.rotateY .002 * (Date.now() - initialTime)
+)
+
+options =
+  filter: ""
+  multiple: true
+
+console.log Contact
+
+Contact.find ["displayName", "name"], options, (err, contacts) ->
+  contacts.forEach (contact) ->
+    console.log contact.displayName
+    return
   return
 
-# Bind any events that are required on startup. Common events are:
-# 'load', 'deviceready', 'offline', and 'online'.
-document.addEventListener 'deviceready', device_ready, false
+mainContext.add(centerSpinModifier).add logo

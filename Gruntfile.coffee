@@ -49,7 +49,7 @@ module.exports = (grunt) ->
         files:
           "www/index.js": ["src/coffee/index.coffee"]
         options:
-          transform: ['browserify-file', 'coffeeify']
+          transform: ['browserify-file', 'coffeeify', 'famousify', 'cssify', 'brfs', 'deamdify']
           ext: ".js"
 
     uglify:
@@ -67,11 +67,11 @@ module.exports = (grunt) ->
       options:
         livereload: true 
       gruntfile:
-        files: ["Gruntfile.js"]
+        files: ["Gruntfile.coffee"]
         options:
           reload: true
       js:
-        files: "src/coffee/*.coffee"
+        files: ["src/coffee/*.coffee", "src/coffee/**/*.coffee"]
         tasks: ["browserify"]
         options:
           livereload: true

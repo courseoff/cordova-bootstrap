@@ -7,5 +7,5 @@ module.exports.find = (fields, opt, cb) ->
     cb null, contacts
   onError = (contactError) ->
     cb contactError
-  navigator.contacts.find fields, onSuccess, onError, opt
+  navigator.contacts.find fields, onSuccess, onError, opt if navigator.contacts
   return
